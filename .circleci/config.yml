@@ -1,69 +1,69 @@
 #version: 2.1
 jobs:
   build:
-    docker: # Executor タイプです。他に machine、macOS という実行タイプを指定できます
-      - image: circleci/node:10-browsers # プライマリコンテナです。このなかでジョブコマンドが実行されます      
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       - checkout
-      - run: npm install typescript
-      - sonarcloud/scan
+      #- run: npm install typescript
+      #- sonarcloud/scan
       #- run: echo "hello worldx"
       #- run: jq --version
-      - run:
-          command: |
-            STATUS=$(curl -u "${SONAR_TOKEN}:" https://sonarcloud.io/api/qualitygates/project_status?projectKey=kura2020_public2020 | jq -r '.projectStatus.status')
-            echo "Status of SonarQube task is ${STATUS} "
-            if [ "${STATUS}" != "OK" ]; then
-                echo "Quality gate is not OK - exiting with error"
-                exit 1
-            fi
-      
+      #- run: jq --version
+      #- run:
+      #      STATUS=$(curl -u "${SONAR_TOKEN}:" https://sonarcloud.io/api/qualitygates/project_status?projectKey=kura2020_public2020 | jq -r '.projectStatus.status')
+      #      echo "Status of SonarQube task is ${STATUS} "
+      #      if [ "${STATUS}" != "OK" ]; then
+      #          echo "Quality gate is not OK - exiting with error"
+      #          exit 1
+      #      fi
+      #
       # Download and cache dependencies
       #- run: 
       #    command: npm install
       #    working_directory: ./helloworld-webpart
       #- run: npm version
-      
+      #
       #- run: sudo npm link gulp
       #- run: gulp -version
-
-
+      #
+      #
       # - save_cache:
       #    paths:
       #      - node_modules
       #    key: v1-dependencies-{{ checksum "package.json" }}
       #    working_directory: ./helloworld-webpart
-
+      #
       # run gulp
       #- run: mkdir /tmp/artifacts
-      
+      #
       #- run: 
       #    command: gulp bundle --ship
       #    working_directory: ./helloworld-webpart
       #- run: 
       #    command: gulp package-solution --ship
       #    working_directory: ./helloworld-webpart
-
+      #
       #- store_artifacts:
       #    path: ./helloworld-webpart/sharepoint/solution/helloworld-webpart.sppkg
-          
+      #    
       # ここから Sharepointにデプロイ
       # o365 コマンドツールのインストール
       #- run:
       #    command: npm install @pnp/office365-cli
       #    working_directory: ./helloworld-webpart
-      
+      #
       #- run: sudo npm link @pnp/office365-cli
-      
+      #
       # ログイン・デプロイを実行
       #- run:
       #    command: o365 login -t password -u $USERNAME -p $PASSWORD
-      
+      #
       #- run:
       #    command: o365 spo app add -p ./helloworld-webpart/sharepoint/solution/helloworld-webpart.sppkg --overwrite
       #- run:
       #    command: o365 spo app deploy --name helloworld-webpart.sppkg
-
+      #
       # Selenuim-side runnerの実行
       #- run: 
       #    command: |
@@ -72,13 +72,13 @@ jobs:
       #    working_directory: ./helloworld-webpart
       #- run: selenium-side-runner -c "browserName=chrome goog:chromeOptions.args=[disable-infobars,headless]"  ./selenium/SharePoint_Test1.side
 
-orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.1
-workflows:
-  main:
-    jobs:
-      - build:
-          context: sonarcloud
+#orbs:
+#  sonarcloud: sonarsource/sonarcloud@1.0.1
+#workflows:
+#  main:
+#    jobs:
+#      - build:
+          #context: sonarcloud
           #filters:
           #  branches:
           #    only: master
